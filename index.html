@@ -1,38 +1,95 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ECoMEM: Explicit Concept Memory for Memory-Dependent Robot Control. A research project from Stanford University.">
-  <meta name="theme-color" content="#faf9f6">
-  <title>ECoMEM — Explicit Concept Memory</title>
-  <style>
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#faf9f6;color:#232b32;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.7}main{max-width:900px;margin:auto;padding:76px 24px 40px}header{text-align:center}.eyebrow{font-size:12px;letter-spacing:.17em;text-transform:uppercase;color:#707b80}h1{font-family:Georgia,serif;font-size:clamp(46px,8vw,72px);line-height:1.1;margin:24px 0 18px;font-weight:normal;color:#285c58}h2{font-family:Georgia,serif;font-weight:normal;font-size:29px;line-height:1.35}header h2{font-size:clamp(23px,4vw,34px);max-width:760px;margin:0 auto 26px}.authors{max-width:680px;margin:auto}.affiliation{color:#778087;font-size:14px;margin-top:8px}section{margin-top:55px;border-top:1px solid #dcded9;padding-top:24px}section p{max-width:760px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}.stat strong{font-size:34px;font-family:Georgia,serif;font-weight:normal;display:block;color:#285c58}.stat span{font-size:13px;color:#677277}footer{margin-top:64px;font-size:12px;color:#778087}a{color:#285c58;text-underline-offset:4px} @media(max-width:520px){main{padding-top:45px}.stats{gap:14px}.stat strong{font-size:27px}.stat span{font-size:12px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ECoMEM: Explicit Concept Memory for Memory-Dependent Robot Control. An evidence-based Writer maintains memory; a learned Reader conditions the robot policy.">
+<meta property="og:title" content="ECoMEM: Explicit Concept Memory">
+<meta property="og:image" content="https://ecomem.github.io/assets/teaser.png">
+<meta property="og:url" content="https://ecomem.github.io/">
+<link rel="canonical" href="https://ecomem.github.io/">
+<link rel="stylesheet" href="style.css">
+<title>ECoMEM: Explicit Concept Memory for Memory-Dependent Robot Control</title>
 </head>
 <body>
+<a class="skip" href="#abstract">Skip to content</a>
+<header class="container hero">
+<h1>ECoMEM: Explicit Concept Memory<br>for Memory-Dependent Robot Control</h1>
+<p class="authors"><span>Yize Liu</span><span>Ke Wang</span><span>Mac Schwager</span><span>Jiajun Wu</span><span>Yiqing Xu</span></p>
+<p class="affiliation">Stanford University</p>
+<nav aria-label="Page sections"><a href="#method">Method</a><a href="#results">Results</a><a href="#real-robot">Real Robot</a><a href="#citation">BibTeX</a></nav>
+</header>
 <main>
-  <header>
-    <p class="eyebrow">Stanford University · Robot Learning</p>
-    <h1>ECoMEM</h1>
-    <h2>Explicit Concept Memory for<br>Memory-Dependent Robot Control</h2>
-    <p class="authors">Yize Liu &nbsp;·&nbsp; Ke Wang &nbsp;·&nbsp; Mac Schwager &nbsp;·&nbsp; Jiajun Wu &nbsp;·&nbsp; Yiqing Xu</p>
-    <p class="affiliation">Stanford University</p>
-  </header>
-  <section>
-    <h2>What should a robot remember?</h2>
-    <p>ECoMEM separates maintaining an evidence-grounded account of the past from learning how to act on it. A reusable library represents task-relevant history as explicit concepts. An evidence-based <strong>Writer</strong> selects and updates these records, while a learned <strong>Reader</strong> turns them into memory tokens that condition a vision–language–action policy.</p>
-    <div class="stats">
-      <div class="stat"><strong>82.42%</strong><span>Mean success on 16 RoboMME tasks</span></div>
-      <div class="stat"><strong>15 / 16</strong><span>Tasks leading evaluated robot policies</span></div>
-      <div class="stat"><strong>86.1%</strong><span>Real-robot success · 8.6% without memory</span></div>
-    </div>
-  </section>
-  <section>
-    <h2>A reusable concept library</h2>
-    <p>Four families describe what and where entities are, their states and relations, events and progress, and temporal order. On a real robot, <strong>CupSwitch</strong> reuses the library to count cup round trips; <strong>ScoopPour</strong> extends it with a scoop concept to recognize successful scoop-and-pour cycles.</p>
-  </section>
-  <footer>ECoMEM · 2026 · <a href="mailto:yizeliu@stanford.edu">Contact</a></footer>
+<div class="container intro">
+<figure><a href="assets/teaser.png" aria-label="View overview at full resolution"><img src="assets/teaser.png" alt="Concept memory tracks completed cup round trips and scoop-and-pour cycles, and supports recovery from unsuccessful attempts." fetchpriority="high"></a>
+<figcaption class="takeaway">A robot needs to know not only <strong>how to act</strong>, but <strong>what to remember</strong>.</figcaption></figure>
+</div>
+<section class="band" id="abstract"><div class="prose">
+<h2>Abstract</h2>
+<p>A robot may lose sight of an object it must later retrieve, need to recall what a person demonstrated earlier, or track which steps of a task it has already completed. Current vision–language–action (VLA) policies often fail once the information needed for action disappears from the current observation, making memory critical for long-horizon robot behavior. Existing approaches typically provide longer histories or learn implicit memory from observation–action trajectories. But action supervision tells a policy <em>how to act</em>, not <em>what to remember</em>: it does not specify which past facts should persist or how they should change as new evidence arrives.</p>
+<p>We therefore separate <em>maintaining an evidence-grounded account of the past</em> from <em>learning how to act on it</em>. This insight motivates <strong>Explicit Concept Memory (ECoMEM)</strong>, which represents task-relevant history with a reusable library of grounded concepts. An evidence-based Writer selects and updates these records, while a learned Reader turns them into memory tokens that directly condition the VLA. Across 16 RoboMME tasks, ECoMEM leads the evaluated robot policies on 15 tasks. On two new real-robot tasks, the same memory library either transfers directly or requires only one new concept, achieving <strong>86.1% success versus 8.6%</strong> for a no-memory VLA.</p>
+</div></section>
+<section class="container" id="method">
+<h2>Explicit Concept Memory</h2>
+<p class="section-lead">An evidence-based Writer maintains the facts.<br>A learned Reader makes them useful for action.</p>
+<figure><a href="assets/architecture.png" aria-label="View architecture at full resolution"><img src="assets/architecture.png" alt="Instructions, visual observations, and robot state feed a concept memory Writer. A learned Reader converts records into memory tokens for the VLA." loading="lazy"></a><figcaption>ECoMEM adds an explicit memory channel to a pretrained VLA, separating memory construction from action learning.</figcaption></figure>
+<div class="prose inner">
+<p><strong>Write from evidence.</strong> The instruction selects relevant concepts and specifies which entities to ground. Recognizers combine visual and robot-state evidence; explicit update rules preserve facts through occlusion, record each event once, and update counts and ordered progress.</p>
+<p><strong>Read for action.</strong> A small Transformer encodes structured records into memory tokens. These tokens join the image and language tokens of π<sub>0.5</sub>; the Reader and policy learn how to use them through action supervision.</p>
+<h3>A shared library, four kinds of memory</h3>
+<dl class="concepts">
+<div><dt>Entity &amp; Spatial Grounding</dt><dd>What is the entity, and where is it?</dd></div>
+<div><dt>State &amp; Relation</dt><dd>What state is it in, and how is it related to other entities?</dd></div>
+<div><dt>Event &amp; Progress</dt><dd>What has happened, and how much of the goal is complete?</dd></div>
+<div><dt>Temporal &amp; Procedure</dt><dd>In what order did events occur, and what comes next?</dd></div>
+</dl></div></section>
+<section class="band" id="results"><div class="prose">
+<h2>Memory-Dependent Robot Control</h2>
+<p class="section-lead">82.42% average success across 16 RoboMME tasks.</p>
+<p>ECoMEM leads the evaluated robot policies on <strong>15 of 16 tasks</strong>, spanning counting, object permanence, reference, and imitation. Its task-equal mean is <strong>37.91 percentage points</strong> above the strongest evaluated baseline.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="RoboMME average success rates">
+<table><caption>RoboMME · task-equal average success</caption><thead><tr><th scope="col">Method</th><th scope="col">Success</th></tr></thead><tbody>
+<tr><th scope="row">π<sub>0.5</sub></th><td>17.93%</td></tr>
+<tr><th scope="row">π<sub>0.5</sub> with past actions</th><td>19.73%</td></tr>
+<tr><th scope="row">SAM2Act+</th><td>21.37%</td></tr>
+<tr><th scope="row">MemER</th><td>42.38%</td></tr>
+<tr><th scope="row">FrameSamp+Modul</th><td>44.51%</td></tr>
+<tr class="ours"><th scope="row">ECoMEM</th><td>82.42%</td></tr>
+<tr class="reference"><th scope="row">Human reference</th><td>90.50%</td></tr>
+</tbody></table></div>
+<p class="note">ECoMEM is evaluated on 50 episodes per task with three policy sampling seeds. Baseline and human results are reported by RoboMME.</p>
+<h3>What makes the memory useful?</h3>
+<p>Controlled ablations show that <strong>spatial information, event progress, and temporal order</strong> support distinct memory-dependent decisions. Task-conditioned concept selection improves control and reduces recognition cost; language grounding binds remembered facts to the correct entities.</p>
+</div></section>
+<section class="container" id="real-robot">
+<h2>Real-Robot Transfer</h2>
+<p class="section-lead">Reuse the library for CupSwitch. Add one concept for ScoopPour.</p>
+<div class="prose inner"><p><strong>CupSwitch</strong> uses existing grounding, pick–place, counting, and goal concepts to complete a requested number of cup round trips between two plates. <strong>ScoopPour</strong> adds <code>SCOOP(tool, material)</code>, verifying that the lifted scooper carries beans. This new concept composes with the existing memory machinery so empty attempts do not advance the count.</p></div>
+<figure><a href="assets/real-robot.png" aria-label="View real-robot examples at full resolution"><img src="assets/real-robot.png" alt="CupSwitch records three round trips using reused concepts. ScoopPour adds SCOOP, leaves the count unchanged for an empty attempt, and records a successful recovery." loading="lazy"></a><figcaption>Online memory records. Blue denotes reused concepts; orange denotes the new SCOOP concept. An unsuccessful attempt leaves progress unchanged.</figcaption></figure>
+<div class="prose inner">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Real-robot success rates by task and target">
+<table><caption>Successes / trials · exactly the requested number of cycles</caption><thead><tr><th scope="col">Task</th><th scope="col">Target</th><th scope="col">ECoMEM</th><th scope="col">No-memory π<sub>0.5</sub></th></tr></thead><tbody>
+<tr><th scope="row">ScoopPour</th><td>1×</td><td>16 / 20</td><td>4 / 12</td></tr>
+<tr><th scope="row">ScoopPour</th><td>2×</td><td>19 / 23</td><td>0 / 12</td></tr>
+<tr><th scope="row">ScoopPour</th><td>3×</td><td>11 / 12</td><td>0 / 11</td></tr>
+<tr class="group"><th scope="row">CupSwitch</th><td>2×</td><td>11 / 12</td><td>0 / 12</td></tr>
+<tr><th scope="row">CupSwitch</th><td>3×</td><td>11 / 12</td><td>1 / 11</td></tr>
+<tr class="ours"><th scope="row" colspan="2">Pooled success</th><td>86.1% <small>(68/79)</small></td><td>8.6% <small>(5/58)</small></td></tr>
+</tbody></table></div>
+<p class="note">Both methods are fine-tuned from pretrained π<sub>0.5</sub> on the same teleoperated demonstrations. Trials are unpaired, with unequal sample sizes. A ScoopPour cycle is a successful scoop-and-pour; a CupSwitch cycle is one full round trip.</p>
+</div></section>
+<section class="band" id="citation"><div class="prose">
+<h2>BibTeX</h2>
+<pre><code>@misc{liu2026ecomem,
+  title  = {ECoMEM: Explicit Concept Memory for
+            Memory-Dependent Robot Control},
+  author = {Liu, Yize and Wang, Ke and Schwager, Mac
+            and Wu, Jiajun and Xu, Yiqing},
+  year   = {2026},
+  url    = {https://ecomem.github.io/}
+}</code></pre>
+</div></section>
 </main>
+<footer class="container">ECoMEM · Stanford University · <a href="mailto:yizeliu@stanford.edu">Contact</a></footer>
 </body>
 </html>
